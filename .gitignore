@@ -1,0 +1,8 @@
+.gradle/
+
+.idea/
+**.iml
+build/
+
+# temporary to hide fishy stuff from the git history :P
+**/Main.kt
