@@ -8,6 +8,8 @@ sealed class Token {
 }
 
 sealed class Parenthesis : Token()
+object LeftParenthesisToken : Parenthesis()
+object RightParenthesisToken : Parenthesis()
 
 sealed class OperatorToken : Token()
 
@@ -30,6 +32,7 @@ object LesserEqualsToken : ComparisonOperatorToken()
 
 object PlusPlusToken : OperatorToken()
 object MinusMinusToken : OperatorToken()
+object BangToken : OperatorToken()
 
 data class IntegerLiteralToken(val literal: String) : LiteralToken()
 data class FloatingPointLiteralToken(val literal: String) : LiteralToken()

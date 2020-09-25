@@ -39,7 +39,13 @@ class Parser(private val tokenStream: Iterator<Token>) {
     }
 
     fun parse(): SyntaxNode {
-        return parseExpression()
+        // TODO: this should probably not fail on an empty stream (because it is hard to see that the stream is empty
+        //  from the outside, if it contains whitespace. However, this is a temporary function anyway, which later
+        //  should parse the entire stream at once
+        if (currentToken != null)
+            return parseExpression()
+        else
+            error("token stream is empty")
     }
 
     private fun parseExpression(): ExpressionNode {
@@ -58,7 +64,17 @@ class Parser(private val tokenStream: Iterator<Token>) {
     }
 
     private fun parseComparison(): ExpressionNode {
-        return parseAddition()
+        var expr: ExpressionNode = parseAddition()
+
+        while (currentToken == LesserToken
+                || currentToken == GreaterToken
+                || currentToken == LesserEqualsToken
+                || currentToken == GreaterEqualsToken) {
+            val token = advance() as ComparisonOperatorToken
+            expr = ComparisonExprNode(expr, token, parseAddition())
+        }
+
+        return expr
     }
 
     private fun parseAddition(): ExpressionNode {
@@ -73,22 +89,43 @@ class Parser(private val tokenStream: Iterator<Token>) {
     }
 
     private fun parseMultiplication(): ExpressionNode {
-        return parseUnary()
+        var expr: ExpressionNode = parseUnary()
+
+        while (currentToken == TimesToken || currentToken == DivideToken) {
+            val token = advance() as OperatorToken
+            expr = MultiplicationExprNode(expr, token, parseUnary())
+        }
+
+        return expr
     }
 
     private fun parseUnary(): ExpressionNode {
+        if (currentToken == MinusToken || currentToken == BangToken) {
+            val token = advance() as OperatorToken
+            return UnaryExprNode(token, parsePrimary())
+        }
+
         return parsePrimary()
     }
 
     private fun parsePrimary(): ExpressionNode {
-        return parseNumber()
+        return when (currentToken) {
+            is LiteralToken -> parseNumber()
+            LeftParenthesisToken -> {
+                advance()
+                val expr = parseExpression()
+                if (advance() == RightParenthesisToken) {
+                    expr
+                } else {
+                    throw IllegalArgumentException("missing closing parenthesis")
+                }
+            }
+
+            else -> throw IllegalStateException("not implemented yet")
+        }
     }
 
     private fun parseNumber(): ExpressionNode {
-        if (currentToken is LiteralToken) {
-            return ConstantExpr(advance() as LiteralToken)
-        }
-
-        throw IllegalStateException("not implemented yet")
+        return ConstantExpr(advance() as LiteralToken)
     }
 }

@@ -18,12 +18,12 @@ data class AdditionExprNode(
         val operator: OperatorToken,
         val rightExpr: ExpressionNode) : ExpressionNode()
 
-data class MultiplicationExpr(
+data class MultiplicationExprNode(
         val leftExpr: ExpressionNode,
         val operator: OperatorToken,
         val rightExpr: ExpressionNode) : ExpressionNode()
 
-data class UnaryExpr(val operator: OperatorToken,
-                     val expr: ExpressionNode) : ExpressionNode()
+data class UnaryExprNode(val operator: OperatorToken,
+                         val expr: ExpressionNode) : ExpressionNode()
 
 data class ConstantExpr(val constant: LiteralToken) : ExpressionNode()
