@@ -9,20 +9,30 @@ sealed class Token {
 
 sealed class Parenthesis : Token()
 
-sealed class Operator : Token()
+sealed class OperatorToken : Token()
 
-sealed class Literal : Token()
+sealed class LiteralToken : Token()
 
-object PlusToken : Operator()
-object MinusToken : Operator()
-object TimesToken : Operator()
-object DivideToken : Operator()
+object PlusToken : OperatorToken()
+object MinusToken : OperatorToken()
+object TimesToken : OperatorToken()
+object DivideToken : OperatorToken()
 
-object PlusPlusToken : Operator()
-object MinusMinusToken : Operator()
+sealed class EqualityOperatorToken : OperatorToken()
+object EqualsEqualsToken : EqualityOperatorToken()
+object BangEqualsToken : EqualityOperatorToken()
 
-data class IntegerLiteral(val literal: String) : Literal()
-data class FloatingPointLiteral(val literal: String) : Literal()
+sealed class ComparisonOperatorToken : OperatorToken()
+object GreaterToken : ComparisonOperatorToken()
+object LesserToken : ComparisonOperatorToken()
+object GreaterEqualsToken : ComparisonOperatorToken()
+object LesserEqualsToken : ComparisonOperatorToken()
+
+object PlusPlusToken : OperatorToken()
+object MinusMinusToken : OperatorToken()
+
+data class IntegerLiteralToken(val literal: String) : LiteralToken()
+data class FloatingPointLiteralToken(val literal: String) : LiteralToken()
 
 /**
  * An unexpected token in the input stream

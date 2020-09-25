@@ -143,7 +143,7 @@ class Lexer private constructor(private val inputStream: InputStream) : Iterator
             literal.append(currentChar)
         }
 
-        return IntegerLiteral(literal.toString())
+        return IntegerLiteralToken(literal.toString())
     }
 
     /**
@@ -233,7 +233,7 @@ class Lexer private constructor(private val inputStream: InputStream) : Iterator
 
         // TODO read suffixes
 
-        return IntegerLiteral(literal.toString())
+        return IntegerLiteralToken(literal.toString())
     }
 
     private fun readFloatingPointLiteral(literal: StringBuilder): Token {
@@ -241,7 +241,7 @@ class Lexer private constructor(private val inputStream: InputStream) : Iterator
         // likely part of a method call
         when {
             peekNextChar?.isDigit() ?: false -> this.advanceLexer()
-            else -> return IntegerLiteral(literal.toString())
+            else -> return IntegerLiteralToken(literal.toString())
         }
 
         literal.append(currentChar)
@@ -256,7 +256,7 @@ class Lexer private constructor(private val inputStream: InputStream) : Iterator
             literal.append(currentChar)
         }
 
-        return FloatingPointLiteral(literal.toString())
+        return FloatingPointLiteralToken(literal.toString())
     }
 
     override fun close() {
