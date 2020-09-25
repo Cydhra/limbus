@@ -6,3 +6,7 @@ build/
 
 # temporary to hide fishy stuff from the git history :P
 **/Main.kt
+
+# latex
+docs/**/auxil/
+docs/**/out/

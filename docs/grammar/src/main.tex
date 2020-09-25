@@ -1,0 +1,34 @@
+\documentclass[11pt]{scrartcl}
+
+% Packages
+\usepackage{luatex85}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+\usepackage{amsmath}
+\usepackage{syntax}
+
+
+% Document
+\begin{document}
+    \paragraph{Expression Syntax}
+    \begin{grammar}
+        <expression> ::= <equality> .
+
+        <equality> ::= <comparison> ( ( "!=" | "==" ) <comparison>)* .
+
+        <comparison> ::= <addition> ( ( "<" | ">" | "<=" | ">=" ) <addition> )* .
+
+        <addition> ::= <multiplication> ( ( "+" | "-" ) <multiplication> )* .
+
+        <multiplication> ::= <unary> ( ( "/" | "*" ) <unary> )* .
+
+        <unary> ::= ( "!" | "-" ) <unary> \alt <primary> .
+
+        <primary> ::= <number>
+%        \alt <string>
+%        \alt "true"
+%        \alt "false"
+        \alt "(" <expression> ")" .
+    \end{grammar}
+
+\end{document}
